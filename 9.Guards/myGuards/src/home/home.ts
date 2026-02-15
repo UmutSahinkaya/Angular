@@ -8,7 +8,13 @@ import { Router, RouterLink } from '@angular/router';
   styleUrls: ['./home.css'],
 })
 export class Home {
+  name: string = "";
   constructor(private router: Router) {}
+
+  checkStatus() {
+    
+  }
+
   logout() {
     localStorage.removeItem('token');
     this.router.navigateByUrl('/login');
