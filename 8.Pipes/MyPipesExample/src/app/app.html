@@ -1,13 +1,5 @@
-<h1>Pipes</h1>
-<div>
-  <input [(ngModel)]="work"]>
-  <button (click)="Save()">Submit</button>
-</div>
-<div>
-  <input type="search" [(ngModel)]="search" placeholder="Search...">
-  <ul>
-    @for(t of todos | todo:search;track t){
-      <li>{{t}}</li>
-    }
-  </ul>
-</div>
+<h1>Pipe</h1>
+<h1>{{name | titlecase | uppercase | lowercase}}</h1>
+<h1>{{date | date:'dd.MMM.yyyy HH:mm:ss'}}</h1>
+<h1>{{num | currency:'EUR':'symbol-narrow':'1.2-2'}}</h1>
+<h1>{{num | trCurrency:'TRY':false}}</h1> <!-- byTanerSaydam npm i tr-currency -->
