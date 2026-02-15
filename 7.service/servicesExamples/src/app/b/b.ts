@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { ExampleService } from '../services/example';
 
 @Component({
   selector: 'app-b',
   imports: [],
   templateUrl: './b.html',
-  styleUrl: './b.css',
+  styleUrls: ['./b.css'],
 })
-export class B {
+export class BComponent {
+  
+  exService = inject(ExampleService); //diğer bir inject yöntemi 
 
+// constructor(
+//     public exService:ExampleService
+//   ) {}
 }
