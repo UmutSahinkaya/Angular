@@ -1,59 +1,84 @@
-# ServicesExamples
+# Services
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+## Services Nedir?
 
-## Development server
+Angular'da **Service**, uygulamaniz icindeki veri ve is mantigini yoneten, bagimsiz ve yeniden kullanilabilir siniflardir. Component'lar arasinda veri paylasimi, HTTP istekleri, business logic ve diger yardimci islemler icin kullanilir.
 
-To start a local development server, run:
+## Ne Ise Yarar?
 
-```bash
-ng serve
+- **Veri Paylasimi**: Component'lar arasinda ortak veri ve state yonetimi
+- **Kod Tekrari Onleme**: Ortak islevi tek bir yerde tutarak DRY (Don't Repeat Yourself) prensibine uyum
+- **HTTP Istekleri**: API'lerden veri cekme ve gonderme
+- **Business Logic**: Component'lardan is mantigini ayirarak daha temiz kod yapisina kavusma
+- **Dependency Injection**: Angular'in DI sistemiyle servisler otomatik enjekte edilir
+
+## Nerelerde Kullanilir?
+
+- Kullanici kimlik dogrulama (authentication)
+- Veri tabanina erisim (HTTP servisleri)
+- Component'lar arasi iletisim
+- Loglama ve hata yonetimi
+- Ortak yardimci fonksiyonlar
+- State management
+
+## Service Yapisi
+
+Bir service, `@Injectable()` decorator'u ile isaretlenir ve genellikle `providedIn: 'root'` ile uygulamanin her yerinden erisilebilir hale gelir.
+
+## One Cikan Dosyalar
+
+- `src/app/services/example.ts`
+
+## Ornek
+
+```ts
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ExampleService {
+  work: string = '';
+  todos: string[] = [];
+
+  constructor() {}
+
+  save() {
+    this.todos.push(this.work);
+    this.work = '';
+  }
+}
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Component'ta Kullanimi
 
-## Code scaffolding
+```ts
+import { Component } from '@angular/core';
+import { ExampleService } from './services/example';
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.html'
+})
+export class App {
+  constructor(private exampleService: ExampleService) {}
 
-```bash
-ng generate component component-name
+  addTodo() {
+    this.exampleService.save();
+  }
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Avantajlari
+
+- **Singleton Pattern**: Varsayilan olarak uygulama genelinde tek bir ornek olusturulur
+- **Testability**: Service'leri kolayca mock edebilir ve test edebilirsiniz
+- **Separation of Concerns**: Component'lari sadece gorunum ile ilgilendirir
+- **Reusability**: Ayni service birden fazla component'ta kullanilabilir
+
+## Calistirma
 
 ```bash
-ng generate --help
+npm install
+npm start
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

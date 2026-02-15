@@ -1,59 +1,110 @@
-# MyPipesExample
+# Pipes
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+## Pipe Nedir?
 
-## Development server
+**Pipe**, Angular template'lerinde verileri donusturmek icin kullanilan ozel bir yapidir. HTML template'inde gosterilmeden once veriyi belirli bir formata cevirmenizi saglar. Pipe'lar `|` (pipe) sembolu ile kullanilir.
 
-To start a local development server, run:
+## Ne Ise Yarar?
 
-```bash
-ng serve
+- **Veri Formatlama**: Tarihleri, sayilari, metinleri kullaniciya uygun formatta gosterme
+- **Dil ve Bolge Desteği**: Para birimi, tarih ve sayi formatlarini yerel ayarlara gore gosterme
+- **Filtreleme**: Liste verilerini filtreler ve ayiklar
+- **Donusum**: Verileri gorunumde kullanilmadan once donusturme
+- **Template'de Is Mantigi**: Basit donusum mantigi template icinde kalir
+
+## Nerelerde Kullanilir?
+
+- Tarih ve saat gosterimi (dd/MM/yyyy formatinda)
+- Para birimi gosterimi (TL, USD, EUR)
+- Buyuk/kucuk harf donusumleri
+- JSON verilerini template'de gosterme
+- Liste filtreleme
+- Yuzde hesaplamalari
+
+## Pipe Turleri
+
+### Built-in (Dahili) Pipes
+
+Angular varsayilan olarak birçok pipe saglar:
+- `DatePipe`: Tarihleri formatlar
+- `UpperCasePipe` / `LowerCasePipe`: Metin donusumleri
+- `CurrencyPipe`: Para birimi gosterimi
+- `DecimalPipe`: Sayi formatlama
+- `PercentPipe`: Yuzde gosterimi
+- `JsonPipe`: JSON objelerini string olarak gosterir
+
+### Custom (Ozel) Pipes
+
+Kendi ihtiyaclariniza gore ozel pipe'lar olusturabilirsiniz. `PipeTransform` interface'ini implement ederek `transform()` metodunu yazarsiniz.
+
+## One Cikan Dosyalar
+
+- `src/app/todo-pipe.ts` (custom pipe ornegi)
+- `src/app/app.html` (pipe kullanımları)
+
+## Ornek
+
+### Built-in Pipes Kullanimi
+
+```html
+<h1>{{name | titlecase | uppercase | lowercase}}</h1>
+<h1>{{date | date:'dd.MMM.yyyy HH:mm:ss'}}</h1>
+<h1>{{num | currency:'EUR':'symbol-narrow':'1.2-2'}}</h1>
+<h1>{{num | trCurrency:'TRY':false}}</h1>
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Custom Pipe Ornegi
 
-## Code scaffolding
+```ts
+import { Pipe, PipeTransform } from '@angular/core';
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+@Pipe({
+  name: 'todo'
+})
+export class TodoPipe implements PipeTransform {
+  transform(value: string[], search: string): string[] {
+    if (!search) return value;
+    return value.filter((v) => 
+      v.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Template'te Custom Pipe Kullanimi
 
-```bash
-ng generate --help
+```html
+<ul>
+  <li *ngFor="let item of todos | todo:searchText">
+    {{ item }}
+  </li>
+</ul>
 ```
 
-## Building
+## Pipe Parametreleri
 
-To build the project run:
+Pipe'lara parametre gecirerek davranislarini ozellestirebilirsiniz:
 
-```bash
-ng build
+```html
+{{ date | date:'dd/MM/yyyy' }}
+{{ price | currency:'USD':'symbol':'1.2-2' }}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Pure vs Impure Pipes
 
-## Running unit tests
+- **Pure Pipes** (varsayilan): Sadece input degeri degistiginde calisir, performansli
+- **Impure Pipes**: Her change detection cycle'inda calisir, dikkatli kullanilmali
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```ts
+@Pipe({
+  name: 'myPipe',
+  pure: false  // impure pipe
+})
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Calistirma
 
 ```bash
-ng e2e
+npm install
+npm start
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
