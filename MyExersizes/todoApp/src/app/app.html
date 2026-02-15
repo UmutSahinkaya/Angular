@@ -1,0 +1,28 @@
+<h1>Todo App</h1>
+@if(!isUpdateWorkForActive){
+
+<div>
+    <label>Work</label>
+    <input [(ngModel)]="work">
+    <button (click)="save()">Save</button>
+</div>
+}@else {
+<div>
+    <label>Update Work</label>
+    <input [(ngModel)]="updatework">
+    <button (click)="update()">Update</button>
+</div>
+}
+<hr>
+<div>
+    <ul>
+        @for(data of todos;track data){
+
+        <li>{{data}}</li>
+        @if(!isUpdateWorkForActive){
+        <button (click)="delete($index)">Delete</button>
+        <button (click)="get($index)">Update</button>
+        }
+        }
+    </ul>
+</div>

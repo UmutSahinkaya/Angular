@@ -1,0 +1,18 @@
+<h1>Kredi Hesaplama</h1>
+<div>
+  <label>Kredi Tutarı</label>
+  <input [(ngModel)]="krediTutari"/>
+</div>
+<div>
+  <label>Taksit Sayısı</label>
+  <select [(ngModel)]="secilenTaksit">
+    @for(data of taksitler;track data){
+    <option>{{data}}</option>
+    }
+  </select>
+</div>
+<div>
+  <button (click)="hesapla()">Hesapla</button>
+</div>
+<hr>
+  <h2>{{result}}</h2>
