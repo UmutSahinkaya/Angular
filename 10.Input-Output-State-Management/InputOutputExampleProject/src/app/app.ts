@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, Input } from '@angular/core';
+import { EmployeeCreate } from './employee-create/employee-create';
+import { Employees } from './employees/employees';
+import { Employee } from './employees/employee';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  imports: [Employees, EmployeeCreate],
+  template: `
+    <app-employee-create (myEvent)="save($event)" />
+    <hr />
+    <app-employees [employees]="employees" />
+  `,
 })
 export class App {
-  protected readonly title = signal('InputOutputExampleProject');
-}
+  employee = new Employee();
+  employees: Employee[] = [];
+  save(event: any) {
+    this.employee = event;
+    this.employees.push({...event});
+  }
+} 
