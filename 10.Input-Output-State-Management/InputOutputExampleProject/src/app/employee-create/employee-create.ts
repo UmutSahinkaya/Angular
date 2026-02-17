@@ -1,12 +1,10 @@
-import { Employee } from './../../employee/employee';
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 export class Employee {
-    //constructor(public name:string, public surname:string,public date:string, public age:number, public job:string){}
     name:string="";
     surname:string="";
-    date:string="";
+    dateOfBirth:string="";
 }
 
 @Component({

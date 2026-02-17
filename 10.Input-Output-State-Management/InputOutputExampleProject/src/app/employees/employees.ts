@@ -8,9 +8,5 @@ import { Employee } from '../employee-create/employee-create';
   styleUrls: ['./employees.css'],
 })
 export class Employees {
-  @Input() employees:Employee[]=[];
-
-  addEmployee(employee:Employee){
-    this.employees.push(employee);
-  }
+  @Input() employes: Employee[] = [];
 }

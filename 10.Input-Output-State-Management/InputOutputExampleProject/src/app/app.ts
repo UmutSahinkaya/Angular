@@ -1,7 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { EmployeeCreate } from './employee-create/employee-create';
+import { Component } from '@angular/core';
+import { EmployeeCreate,Employee } from './employee-create/employee-create';
 import { Employees } from './employees/employees';
-import { Employee } from './employees/employee';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +8,7 @@ import { Employee } from './employees/employee';
   template: `
     <app-employee-create (myEvent)="save($event)" />
     <hr />
-    <app-employees [employees]="employees" />
+    <app-employees [employes]="employees" />
   `,
 })
 export class App {
