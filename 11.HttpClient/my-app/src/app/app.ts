@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 
 @Component({
@@ -15,8 +15,21 @@ export class App {
   // ) {} veya
   readonly #http=inject(HttpClient); //readonly olması bunun bir servis olduğunu ve değişmeyeceğini gösterir. ayrıca # ile private olduğunu belirtir.Yani html de kullanmayacağını anlıyoruz.
 
+  constructor() {
+    this.get();
+  }
+
+  options={
+    headers: new HttpHeaders({
+      'Authorization':'Bearer tokendasdawdawdw',
+      'Content-Type':'application/json',
+      'CompanyName':'MyCompany'
+    }),
+    //params:new HttpParams().set('userId','1').set("completed","false")
+  }
+
   get(){
-    this.#http.get<any[]>('https://jsonplaceholder.typicode.com/todos').subscribe(
+    this.#http.get<any[]>('https://jsonplaceholder.typicode.com/todos',this.options).subscribe(
       {
         next:(res)=>{
           this.todos=res;
@@ -33,7 +46,8 @@ export class App {
       title:'New Todo',
       userId:1
     }
-    this.#http.post<{message:string}>('https://jsonplaceholder.typicode.com/todos',this.todo).subscribe(
+    this.#http.post<{message:string}>('https://jsonplaceholder.typicode.com/todos',this.todo,this.options
+      ).subscribe(
       {
         next:(res)=>{
           console.log(res.message);
