@@ -1,30 +1,22 @@
 import { Component, inject } from '@angular/core';
-import { HttpService } from './http.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
   imports: [],
-  template: '<button (click)="get()">Get Data</button>',
+  template: '<h1>Angular App</h1>',
 })
 export class App {
-  readonly #http = inject(HttpService);
-  endpoint = 'https://jsonplaceholder.typicode.com/todos';
-  get() {
-    this.#http.get<any>(
-      this.endpoint,
-      (res) => {
-        console.log(res); // Başarılı ise sonuçları konsola yazdır
-      },
-      (err) => {
-        console.error(err); // Hata durumunda hatayı konsola yazdır
-      },
-    );
+  readonly #http = inject(HttpClient);
+ 
+  constructor() {
+    this.get();
   }
-  get2() {
-    this.#http.get<any>(this.endpoint, (res) => {
-        // Başarılı ise.
-        },(err)=>{
-          // Hata durumunda.
-        });
+  
+  get(){
+    this.#http.get("https://jsonplaceholder.typicode.com/todos/").subscribe({ 
+      next:(res) => console.log(res),
+      error: (err:HttpErrorResponse) => console.error(err)
+    });
   }
 }
