@@ -1,59 +1,48 @@
-# Formsapp
+# Template-Driven Forms (formsapp)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular'da **Template-Driven Forms** yaklaşımını öğrenmek için hazırlanmış sade bir alıştırmadır.
+Amaç, `FormsModule`, `ngModel` ve `NgForm` ile form yönetimini uçtan uca görmek.
 
-## Development server
+## Projenin Amacı
 
-To start a local development server, run:
+- `ngModel` ile iki yönlü veri bağlama yapmak
+- `NgForm` üzerinden form durumunu (`invalid`, `submitted`) yönetmek
+- Zorunlu alan, minimum karakter ve e-posta doğrulaması uygulamak
+- Form gönderimi, demo veri doldurma ve form sıfırlama akışlarını görmek
 
-```bash
-ng serve
-```
+## Öne Çıkan Konular
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- `[(ngModel)]` ile model güncelleme
+- `#userForm="ngForm"` ile form referansı alma
+- Alan bazlı validasyon (`required`, `minlength`, `email`)
+- Hata mesajlarını `touched` ve `submitted` durumuna göre gösterme
+- `JsonPipe` ile canlı model çıktısını izleme
 
-## Code scaffolding
+## Uygulama Akışı
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Kullanıcı form alanlarını doldurur (`fullName`, `email`, `level`, `newsletter`, `note`).
+2. Form geçersizse tüm alanlar touched olur ve doğrulama mesajları görünür.
+3. Form geçerliyse veri `submittedModel` olarak saklanır ve gönderim sayısı artar.
+4. **Demo Veri Doldur** ile örnek veri tek tıkla forma basılır.
+5. **Sıfırla** ile form başlangıç değerlerine döner.
 
-```bash
-ng generate component component-name
-```
+## Önemli Dosya
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `src/app/app.ts`
+	- Bu alıştırmada template, stil ve form mantığı tek dosyada tutuluyor.
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Kurulum ve Çalıştırma
 
 ```bash
-ng test
+npm install
+npm start
 ```
 
-## Running end-to-end tests
+Tarayıcı: `http://localhost:4200`
 
-For end-to-end (e2e) testing, run:
+## Ek Komutlar
 
 ```bash
-ng e2e
+npm run build
+npm test
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

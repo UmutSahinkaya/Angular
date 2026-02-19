@@ -1,59 +1,48 @@
-# Reactiveformsapp
+# Reactive Forms (reactiveformsapp)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular'da **Reactive Forms** yaklaşımını temel seviyede göstermek için hazırlanmış bir alıştırmadır.
+Amaç, `FormBuilder`, `FormGroup` ve `Validators` ile form doğrulama ve submit akışını yönetmektir.
 
-## Development server
+## Projenin Amacı
 
-To start a local development server, run:
+- Reactive form yapısını kod tarafında kurmak
+- `Validators.required`, `Validators.minLength`, `Validators.email` kullanmak
+- Geçersiz form gönderiminde tüm alanları touched yapmak
+- Geçerli gönderimde form verisini güvenli şekilde almak
 
-```bash
-ng serve
-```
+## Öne Çıkan Konular
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- `ReactiveFormsModule` ile reactive form altyapısı
+- `fb.nonNullable.group(...)` ile tip güvenli form tanımı
+- `formControlName` ile input-control eşleştirmesi
+- Getter'lar (`name`, `email`) ile template tarafını sade tutma
+- `result` alanında son başarılı gönderimi gösterme
 
-## Code scaffolding
+## Uygulama Akışı
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Form başlangıçta `name` ve `email` alanlarıyla oluşturulur.
+2. Kullanıcı **Gönder** butonuna bastığında `save()` çalışır.
+3. Form geçersizse `markAllAsTouched()` ile hatalar görünür olur.
+4. Form geçerliyse `getRawValue()` ile veri alınıp `result` içine yazılır.
+5. **Temizle** butonu ile form yeniden boşaltılır.
 
-```bash
-ng generate component component-name
-```
+## Önemli Dosya
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `src/app/app.ts`
+	- Form tanımı, validator'lar, submit kontrolü ve sonuç gösterimi bu dosyada.
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Kurulum ve Çalıştırma
 
 ```bash
-ng test
+npm install
+npm start
 ```
 
-## Running end-to-end tests
+Tarayıcı: `http://localhost:4200`
 
-For end-to-end (e2e) testing, run:
+## Ek Komutlar
 
 ```bash
-ng e2e
+npm run build
+npm test
 ```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
