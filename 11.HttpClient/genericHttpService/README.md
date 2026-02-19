@@ -1,59 +1,65 @@
-# GenericHttpService
+# Generic HTTP Service (Angular HttpClient Eğitimi)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular `HttpClient` kullanımını daha tekrar edilebilir hale getirmek için yazılmış bir eğitim uygulamasıdır.
+Ana hedef, doğrudan `HttpClient` kullanımı yerine ortak bir servis (`HttpService`) üzerinden `GET` / `POST` çağrısı yapmayı ve interceptor ile tüm isteklere merkezi header eklemeyi göstermektir.
 
-## Development server
+## Projenin Amacı
 
-To start a local development server, run:
+- `HttpClient` ile API çağrısı mantığını anlamak
+- Tekrar eden HTTP kodlarını ortak bir servis içinde toplamak
+- Fonksiyonel interceptor (`HttpInterceptorFn`) ile request’i merkezi olarak değiştirmek
+- Başarı ve hata senaryolarında callback tabanlı akışı görmek
 
-```bash
-ng serve
-```
+## Öne Çıkan Konular
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- `inject(HttpClient)` kullanımı
+- Generic metodlar (`get<T>`, `post<T>`) ile tip güvenliği
+- Opsiyonel `errorCallback` ile hatayı çağıran katmana bırakma
+- `withInterceptors([...])` ile interceptor kaydı
+- Request clone edip header ekleme
 
-## Code scaffolding
+## Proje Akışı
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Uygulama açıldığında `App` bileşeni bir `GET` isteği gönderir.
+2. İstek, `auth.interceptor-interceptor.ts` içindeki interceptor’dan geçer.
+3. Interceptor, isteğe `Authorization` ve `Year` header’larını ekler.
+4. Cevap başarılıysa konsola yazılır; hata olursa `HttpErrorResponse` yakalanır.
 
-```bash
-ng generate component component-name
-```
+## Önemli Dosyalar
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `src/app/http.service.ts`  
+	Ortak `GET` ve `POST` metodlarını içerir. Callback ve hata callback alır.
 
-```bash
-ng generate --help
-```
+- `src/app/auth.interceptor-interceptor.ts`  
+	Tüm çıkış isteklerine header ekleyen fonksiyonel interceptor.
 
-## Building
+- `src/app/app.config.ts`  
+	`provideHttpClient(withInterceptors(...))` ile interceptor yapılandırması.
 
-To build the project run:
+- `src/app/app.ts`  
+	Örnek `GET` çağrısını yapan root bileşen.
 
-```bash
-ng build
-```
+## Kullanılan API
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- `https://jsonplaceholder.typicode.com/todos/`
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Kurulum ve Çalıştırma
 
 ```bash
-ng e2e
+npm install
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Tarayıcı: `http://localhost:4200`
 
-## Additional Resources
+## Ek Komutlar
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm run build
+npm test
+```
+
+## Eğitim Notları
+
+- Bu proje callback tabanlı bir örnek içerir; daha ileri adımda RxJS operatörleri veya `async/await` yaklaşımıyla genişletilebilir.
+- Header değerleri eğitim amaçlı sabit yazılmıştır; gerçek projede token yönetimi güvenli bir akışla yapılmalıdır.

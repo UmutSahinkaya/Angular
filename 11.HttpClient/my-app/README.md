@@ -1,59 +1,59 @@
-# MyApp
+# My App - Temel HttpClient Kullanımı
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular `HttpClient` ile temel `GET` ve `POST` işlemlerini öğrenmek için hazırlanmış başlangıç seviyesinde bir eğitim uygulamasıdır.
+Odak noktası; header gönderimi, hata yakalama ve `inject(HttpClient)` kullanımını net şekilde göstermektir.
 
-## Development server
+## Projenin Amacı
 
-To start a local development server, run:
+- Angular’da `HttpClient` servisini kullanmayı öğrenmek
+- `GET` ile liste çekme ve `POST` ile kayıt gönderme akışını görmek
+- İsteklerde özel header kullanımı (`Authorization`, `Content-Type`, vb.)
+- `HttpErrorResponse` ile hata yönetimi yapmak
 
-```bash
-ng serve
-```
+## Öne Çıkan Konular
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Constructor yerine `inject(HttpClient)` yaklaşımı
+- `options` nesnesi ile header (ve opsiyonel query params) geçme
+- `subscribe({ next, error })` yapısıyla cevap/hata ayrımı
+- `jsonplaceholder` API’si ile örnek entegrasyon
 
-## Code scaffolding
+## Uygulama Davranışı
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. Uygulama açıldığında `get()` metodu çalışır.
+2. Todos verisi API’den çekilir ve `todos` dizisine atanır.
+3. `post()` metodu çağrıldığında API’ye yeni todo verisi gönderilir.
+4. Başarılı yanıtta konsola mesaj yazılır, hata durumunda hata nesnesi loglanır.
 
-```bash
-ng generate component component-name
-```
+## Önemli Dosyalar
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `src/app/app.ts`  
+	`GET` / `POST`, header ayarları ve hata yönetiminin olduğu ana eğitim dosyası.
 
-```bash
-ng generate --help
-```
+- `src/app/app.config.ts`  
+	`provideHttpClient()` ile HttpClient’in global olarak sağlandığı konfigürasyon.
 
-## Building
+## Kullanılan API
 
-To build the project run:
+- `GET`: `https://jsonplaceholder.typicode.com/todos`
+- `POST`: `https://jsonplaceholder.typicode.com/todos`
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Kurulum ve Çalıştırma
 
 ```bash
-ng e2e
+npm install
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Tarayıcı: `http://localhost:4200`
 
-## Additional Resources
+## Ek Komutlar
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm run build
+npm test
+```
+
+## Eğitim Notları
+
+- Bu proje temel seviyedir; `service` katmanı ve interceptor eklenerek daha kurumsal bir yapıya taşınabilir.
+- `options` içinde yorum satırı olarak bırakılan `HttpParams` kısmı, filtreli istekler için iyi bir sonraki adımdır.
