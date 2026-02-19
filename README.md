@@ -1,24 +1,51 @@
 # Angular
 
-Bu repo, Angular calismalarimi konu konu takip etmek icin tutuluyor. Her konu ayri bir alt projede durur ve detaylar ilgili alt README dosyalarinda yer alir.
+Bu repo, Angular calismalarini konu konu takip etmek icin tutuluyor. Her konu ayri bir alt projede durur ve detaylar ilgili alt README dosyalarinda yer alir.
 
-## Konular (Detaylar Alt README'lerde)
+## Guncel Durum (main)
 
-### Routing
+- Son merge: **PR #6 - Forms**
+- main uzerinde son merge commit: `04a74f5`
+- Bu commit ile `12.Forms/formsapp` ve `12.Forms/reactiveformsapp` main'e alindi.
+
+## Konular ve Projeler
+
+### 5. Routing
 - Routing (Temel): [5.routing/myBasicRouting/README.md](5.routing/myBasicRouting/README.md)
 - Query Params: [5.routing/queryParamsApp/README.md](5.routing/queryParamsApp/README.md)
 
-### Directives
+### 6. Directives
 - Directives: [6.directive/directives/README.md](6.directive/directives/README.md)
 
-### Services
+### 7. Services
 - Services: [7.service/servicesExamples/README.md](7.service/servicesExamples/README.md)
 
-### Pipes
+### 8. Pipes
 - Pipes: [8.Pipes/MyPipesExample/README.md](8.Pipes/MyPipesExample/README.md)
 
-### Guards
+### 9. Guards
 - Guards: [9.Guards/myGuards/README.md](9.Guards/myGuards/README.md)
+
+### 10. Input / Output / State Management
+- Input-Output Example: [10.Input-Output-State-Management/InputOutputExampleProject/README.md](10.Input-Output-State-Management/InputOutputExampleProject/README.md)
+	- Parent-child component ile temel input/output akisi.
+- Input-Output + State: [10.Input-Output-State-Management/InputOutputStateManagement/README.md](10.Input-Output-State-Management/InputOutputStateManagement/README.md)
+	- Bilesenler arasi veri paylasimi ve durum takibi.
+- State with Services: [10.Input-Output-State-Management/StateManagementWithServices/README.md](10.Input-Output-State-Management/StateManagementWithServices/README.md)
+	- Servis tabanli state yonetimi yaklasimi.
+
+### 11. HttpClient
+- Generic Http Service: [11.HttpClient/genericHttpService/README.md](11.HttpClient/genericHttpService/README.md)
+	- Generic `get/post` metodlari ve interceptor ile header yonetimi.
+- Http Async: [11.HttpClient/httpAsync/README.md](11.HttpClient/httpAsync/README.md)
+	- Async veri cekme, route resolver ve global hata yakalama.
+- HttpClient Basic App: [11.HttpClient/my-app/README.md](11.HttpClient/my-app/README.md)
+
+### 12. Forms
+- Template-Driven Forms: [12.Forms/formsapp/README.md](12.Forms/formsapp/README.md)
+	- Form kontrolleri, dogrulama ve submit akisi.
+- Reactive Forms: [12.Forms/reactiveformsapp/README.md](12.Forms/reactiveformsapp/README.md)
+	- `FormGroup`, `FormControl`, validator ve form model yonetimi.
 
 ### Basic Exercises
 - Kredi Hesaplama: [MyExersizes/kredi-hesaplama/README.md](MyExersizes/kredi-hesaplama/README.md)
@@ -29,16 +56,15 @@ Bu repo, Angular calismalarimi konu konu takip etmek icin tutuluyor. Her konu ay
 
 ## Branch Kullanimi
 
-- Her konu icin yeni branch: `git checkout -b konu-adi`
+- Her konu icin yeni branch: `git switch -c konu-adi`
 - Bitince push: `git push -u origin konu-adi`
+- Main'e donus: `git switch main`
 
 ## Sonraki Konular (Planlanan)
 
 - Component lifecycle
-- Forms (Template-driven, Reactive)
-- HttpClient ve API entegrasyonu
 - Advanced routing
-- State management temelleri
+- State management (ileri seviye)
 - Testing (unit, e2e)
 
 ## Calistirma
@@ -46,7 +72,7 @@ Bu repo, Angular calismalarimi konu konu takip etmek icin tutuluyor. Her konu ay
 Her alt proje ayri bir Angular uygulamasidir. Ornek calistirma:
 
 ```bash
-cd 5.routing/myBasicRouting
+cd 12.Forms/reactiveformsapp
 npm install
 npm start
 ```
