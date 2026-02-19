@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   imports: [],
   template:`
-    <h1>{{ title() }}</h1>`
+    `
 })
 export class App {
 }
