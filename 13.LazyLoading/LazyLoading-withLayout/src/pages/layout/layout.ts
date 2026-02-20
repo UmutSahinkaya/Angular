@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
-import { Navbar } from "./navbar/navbar";
-import { Sidebar } from "./sidebar/sidebar";
 import { RouterOutlet } from '@angular/router';
+import Navbar from './navbar/navbar';
+import Sidebar from './sidebar/sidebar';
 
 @Component({
-  imports: [Navbar, Sidebar,RouterOutlet],
+  imports: [RouterOutlet,Navbar,Sidebar],
   templateUrl: './layout.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
