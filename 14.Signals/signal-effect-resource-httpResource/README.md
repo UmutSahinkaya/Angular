@@ -1,59 +1,80 @@
-# SignalEffectResourceHttpResource
+# Angular Signals Learning Lab
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu repo tek bir Angular projesi içinde şu 3 konuyu adım adım anlatmak için kullanılır:
 
-## Development server
+1. `effect`
+2. `resource`
+3. `httpResource`
 
-To start a local development server, run:
+Amaç: Her konu için yeni proje açmadan, aynı proje içinde ilerlemek ve her adımı commit/tag ile versiyonlamak.
 
-```bash
-ng serve
-```
+## Çalışma Akışı (Önerilen)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Her konu için aynı döngüyü uygula:
 
-## Code scaffolding
+1. `src/app/app.ts` içinde konuyu örnekle.
+2. README'de ilgili bölümde kısa not + ne gösterdiğini güncelle.
+3. Commit at.
+4. İstersen o commit'i tag'le.
+5. Sonraki konuya geçerken `app.ts`'i sadeleştirip yeni konuyu yaz.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Commit / Tag Stratejisi
 
-```bash
-ng generate component component-name
-```
+Örnek commit mesajları:
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- `feat(effect): basic signal + effect example`
+- `feat(resource): async resource with loading/error states`
+- `feat(httpresource): fetch users via httpResource`
 
-```bash
-ng generate --help
-```
+Örnek tag'ler:
 
-## Building
+- `lesson/effect`
+- `lesson/resource`
+- `lesson/httpresource`
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Bu sayede geçmişteki her anlatımı tek komutla açabilirsin:
 
 ```bash
-ng test
+git checkout lesson/effect
 ```
 
-## Running end-to-end tests
+## Ders İlerleme Durumu
 
-For end-to-end (e2e) testing, run:
+- [x] Effect
+- [ ] Resource
+- [ ] httpResource
+
+> Bu checklist her adımda güncellenecek.
+
+## Konu Notları
+
+### 1) Effect
+
+- Hedef: signal değiştiğinde yan etkinin nasıl çalıştığını göstermek.
+- Dosya: `src/app/app.ts`
+- Durum: Tamamlandı
+
+### 2) Resource
+
+- Hedef: asenkron veri akışını `resource` ile yönetmek (`loading`, `value`, `error`).
+- Dosya: `src/app/app.ts`
+- Durum: Sıradaki adım
+
+### 3) httpResource
+
+- Hedef: HTTP üzerinden veri çekimini `httpResource` ile göstermek.
+- Dosya: `src/app/app.ts`
+- Durum: Planlandı
+
+## Projeyi Çalıştırma
 
 ```bash
-ng e2e
+npm install
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Uygulama: `http://localhost:4200`
 
-## Additional Resources
+## Not
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Bu repo bir "öğrenme günlüğü" gibi ilerler. Her commit bir mini ders snapshot'ıdır.

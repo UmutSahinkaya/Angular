@@ -1,12 +1,22 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component,effect, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  imports: [FormsModule],
+  template: `
+    <input [(ngModel)]="num1" />
+    <input [(ngModel)]="num1" />
+  `,
 })
 export class App {
-  protected readonly title = signal('signal-effect-resource-httpResource');
+  readonly num1 = signal(0);
+  readonly num2 = signal(0);
+
+  constructor() {
+     effect(()=>{
+      console.log("Ben çalışıyorum.");
+      console.log(this.num1());
+    })
+  }
 }
