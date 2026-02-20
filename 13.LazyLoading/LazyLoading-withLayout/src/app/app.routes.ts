@@ -11,16 +11,7 @@ export const routes: Routes = [
       },
       {
         path: 'products',
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('../pages/products/products'),
-          },
-          {
-            path: 'create',
-            loadComponent: () => import('../pages/products/create-product/create-product'),
-          },
-        ],
+        loadChildren:()=> import('../pages/products/router').then(m=>m.routes),
       },
     ],
   },
