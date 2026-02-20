@@ -1,78 +1,54 @@
-# Angular Lazy Loading Örneği
+# Lazy Loading App
 
-Bu proje, Angular 21 ile route bazlı lazy loading (tembel yükleme) konusunu göstermek için hazırlanmış basit bir örnektir.
+Bu proje, Angular 21 ile temel route bazli lazy loading mantigini gosteren kucuk bir standalone uygulamadir.
 
-## Amaç
+## Ozet
 
-- Her sayfanın ayrı bir dosyadan yalnızca ihtiyaç anında yüklenmesini göstermek
-- Uygulamanın ilk açılış paket boyutunu azaltma mantığını anlatmak
-- `loadComponent` ile modern Angular standalone yaklaşımını kullanmak
+- Standalone component + `loadComponent` kullanimini gosterir.
+- Her sayfa ihtiyac aninda yuklenir.
+- Basit link navigasyonu uzerinden lazy yukleme davranisi gozlemlenir.
 
-## Projede Lazy Loading Nasıl Uygulandı?
+## Uygulanan Yapi
 
-Rotalar `src/app/app.routes.ts` dosyasında tanımlıdır ve her route için `loadComponent` kullanılır:
+Rotalar `src/app/app.routes.ts` icinde tanimlidir:
 
-- `/home`  → `./home/home`
-- `/product` → `./product/product`
-- `/contact` → `./contact/contact`
+- `/home` -> `loadComponent(() => import('./home/home'))`
+- `/product` -> `loadComponent(() => import('./product/product'))`
+- `/contact` -> `loadComponent(() => import('./contact/contact'))`
 
-Bu sayede kullanıcı yalnızca gezdiği sayfanın bileşenini indirir.
+Ana navigasyon `src/app/app.ts` dosyasindaki `routerLink` baglantilari ile yapilir. Kullanici hangi route'a giderse sadece ilgili component chunk'i yuklenir.
 
-## Navigasyon
-
-Ana linkler `src/app/app.ts` içinde yer alır:
-
-- Home
-- Product
-- Contact
-
-Kullanıcı bu linklerden birine tıkladığında ilgili bileşen lazy olarak yüklenir.
-
-## Kurulum
+## Kurulum ve Calistirma
 
 ```bash
 npm install
-```
-
-## Geliştirme Sunucusu
-
-```bash
 npm start
 ```
 
-Uygulama varsayılan olarak şu adreste açılır:
+Varsayilan adres: `http://localhost:4200/`
 
-`http://localhost:4200/`
-
-## Build Alma
+## Diger Komutlar
 
 ```bash
 npm run build
-```
-
-Çıktılar `dist/` klasörüne üretilir.
-
-## Test
-
-```bash
 npm test
 ```
 
-## Klasör Yapısı (Özet)
+## Klasor Yapisi (Ozet)
 
 ```text
 src/
-	app/
-		app.ts
-		app.routes.ts
-		home/
-			home.ts
-		product/
-			product.ts
-		contact/
-			contact.ts
+  app/
+    app.ts
+    app.routes.ts
+    home/
+      home.ts
+    product/
+      product.ts
+    contact/
+      contact.ts
 ```
 
-## Not
+## Ogrenme Notu
 
-Bu proje eğitim amaçlı minimum bir örnektir. İstenirse bir sonraki adımda feature bazlı klasörleme ve lazy-loaded route guard örnekleri eklenebilir.
+Bu proje, lazy loading konusunun en sade halini gosterir. Bir sonraki adim olarak route guard, preloading stratejileri ve feature klasorleme eklenebilir.

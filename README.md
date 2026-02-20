@@ -47,6 +47,12 @@ Bu repo, Angular calismalarini konu konu takip etmek icin tutuluyor. Her konu ay
 - Reactive Forms: [12.Forms/reactiveformsapp/README.md](12.Forms/reactiveformsapp/README.md)
 	- `FormGroup`, `FormControl`, validator ve form model yonetimi.
 
+### 13. Lazy Loading
+- Lazy Loading (Temel): [13.LazyLoading/lazyLoadingApp/README.md](13.LazyLoading/lazyLoadingApp/README.md)
+	- `loadComponent` ile route bazli lazy yukleme ve standalone component yapisi.
+- Lazy Loading + Layout: [13.LazyLoading/LazyLoading-withLayout/README.md](13.LazyLoading/LazyLoading-withLayout/README.md)
+	- Layout altinda cocuk route'lar ve `loadChildren` ile nested lazy loading yaklasimi.
+
 ### Basic Exercises
 - Kredi Hesaplama: [MyExersizes/kredi-hesaplama/README.md](MyExersizes/kredi-hesaplama/README.md)
 - Kredi Hesaplama (Alternatif): [MyExersizes/myKrediHesaplama/README.md](MyExersizes/myKrediHesaplama/README.md)
@@ -63,7 +69,6 @@ Bu repo, Angular calismalarini konu konu takip etmek icin tutuluyor. Her konu ay
 ## Sonraki Konular (Planlanan)
 
 - Component lifecycle
-- Advanced routing
 - State management (ileri seviye)
 - Testing (unit, e2e)
 

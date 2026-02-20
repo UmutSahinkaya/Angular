@@ -1,59 +1,75 @@
-# LazyLoadingWithLayout
+# Lazy Loading with Layout
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular 21 ile layout tabanli route yapisinda lazy loading uygulanisini gosterir.
 
-## Development server
+## Ozet
 
-To start a local development server, run:
+- Ust seviye route'ta ortak bir `Layout` component lazy olarak yuklenir.
+- `Layout` altinda `children` rotalari tanimlanir.
+- `products` alani icin nested lazy loading (`loadChildren`) kullanilir.
+- Sidebar uzerinden route gecisleri yapilir.
 
-```bash
-ng serve
-```
+## Route Mimarisi
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Ana route tanimi `src/app/app.routes.ts` dosyasindadir:
 
-## Code scaffolding
+- `path: ''` -> `loadComponent(() => import('../pages/layout/layout'))`
+	- child `''` -> `loadComponent(() => import('../pages/home/home'))`
+	- child `'products'` -> `loadChildren(() => import('../pages/products/router').then(m => m.routes))`
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+`products` alt route'lari `src/pages/products/router.ts` dosyasindadir:
 
-```bash
-ng generate component component-name
-```
+- `''` -> `products` listesi
+- `'create'` -> urun olusturma sayfasi
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Layout Yapisi
 
-```bash
-ng generate --help
-```
+`src/pages/layout/layout.html` icinde ortak iskelet bulunur:
 
-## Building
+- `app-navbar`
+- `app-sidebar`
+- `router-outlet`
 
-To build the project run:
+Bu sayede sayfa iskeleti sabit kalirken icerik bolumu route'a gore degisir.
 
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Kurulum ve Calistirma
 
 ```bash
-ng test
+npm install
+npm start
 ```
 
-## Running end-to-end tests
+Varsayilan adres: `http://localhost:4200/`
 
-For end-to-end (e2e) testing, run:
+## Diger Komutlar
 
 ```bash
-ng e2e
+npm run build
+npm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Klasor Yapisi (Ozet)
 
-## Additional Resources
+```text
+src/
+	app/
+		app.ts
+		app.routes.ts
+	pages/
+		layout/
+			layout.ts
+			layout.html
+			navbar/
+			sidebar/
+		home/
+			home.ts
+		products/
+			router.ts
+			products.ts
+			create-product/
+				create-product.ts
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Ogrenme Notu
+
+Bu proje, hem `loadComponent` hem `loadChildren` kullanan kademeli lazy loading senaryosunu gosterir. Bir sonraki adimda products modulu icin guard/preloading stratejisi eklenebilir.
