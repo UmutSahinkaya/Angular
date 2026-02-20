@@ -1,59 +1,81 @@
-# LinkedSignal
+# Linked Signal (Angular 21)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular 21 ile `signal`, `linkedSignal` ve iki yönlü form binding (`ngModel`) kullanımını gösteren basit bir örnektir.
 
-## Development server
+Kullanıcı iki sayı girer, uygulama bu değerleri signal olarak tutar ve toplamı `linkedSignal` ile üretir.
 
-To start a local development server, run:
+## Amaç
 
-```bash
-ng serve
-```
+- `signal` ile reaktif durum yönetimini göstermek
+- `linkedSignal` ile türetilmiş ama aynı zamanda `set`/`update` alabilen bir signal kullanımını göstermek
+- `FormsModule` + `[(ngModel)]` ile input değerlerini signal’lara bağlamak
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Ekran Davranışı
 
-## Code scaffolding
+Uygulama şunları içerir:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- 2 adet sayı girişi (`num1`, `num2`)
+- Toplam çıktısı: `Sum: {{ total() }}`
 
-```bash
-ng generate component component-name
-```
+`total`, `num1` ve `num2` değiştikçe yeniden hesaplanır.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+> Not: Örnek kodda `constructor` içinde `total.set(...)` ve `total.update(...)` kullanımı özellikle gösterilmiştir.
 
-```bash
-ng generate --help
-```
+## Teknolojiler
 
-## Building
+- Angular 21
+- TypeScript
+- Angular Signals API (`signal`, `linkedSignal`)
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## Kurulum
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+## Geliştirme Sunucusu
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Ardından tarayıcıda açın:
 
-## Additional Resources
+`http://localhost:4200/`
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Build
+
+```bash
+npm run build
+```
+
+Build çıktısı `dist/` klasörüne yazılır.
+
+## Test
+
+```bash
+npm test
+```
+
+## NPM Scriptleri
+
+- `npm start` → geliştirme sunucusu (`ng serve`)
+- `npm run build` → üretim build’i
+- `npm run watch` → development konfigürasyonu ile watch build
+- `npm test` → testleri çalıştırır
+
+## Proje Yapısı (özet)
+
+```text
+src/
+	app/
+		app.ts            # ana bileşen (signal/linkedSignal örneği)
+		app.config.ts
+		app.routes.ts
+	main.ts
+	styles.css
+```
+
+## Kısa Not
+
+`computed` yalnızca okunabilir türetilmiş değer üretirken, `linkedSignal` belirli senaryolarda türetilmiş değer üzerinde kontrollü `set`/`update` işlemlerine izin verir.
