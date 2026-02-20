@@ -7,18 +7,9 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "LazyLoading-withLayout": {
+    "signal-learning-app": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component":{
-          "skipTests":true,
-          "skipSelector":true,
-          "viewEncapsulation":"None",
-          "changeDetection":"OnPush",
-          "style":"none",
-          "exportDefault": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -66,10 +57,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "LazyLoading-withLayout:build:production"
+              "buildTarget": "signal-learning-app:build:production"
             },
             "development": {
-              "buildTarget": "LazyLoading-withLayout:build:development"
+              "buildTarget": "signal-learning-app:build:development"
             }
           },
           "defaultConfiguration": "development"
