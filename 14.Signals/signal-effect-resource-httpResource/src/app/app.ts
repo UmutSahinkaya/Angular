@@ -1,22 +1,31 @@
-import { Component,effect, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  imports: [FormsModule],
-  template: `
-    <input [(ngModel)]="num1" />
-    <input [(ngModel)]="num1" />
-  `,
+  imports: [],
+  template: ``,
 })
-export class App {
-  readonly num1 = signal(0);
-  readonly num2 = signal(0);
+export class App implements OnInit {
+  todos = signal<any[]>([]);
+  readonly #http = inject(HttpClient);
+  readonly loading= signal<boolean>(false);
 
-  constructor() {
-     effect(()=>{
-      console.log("Ben çalışıyorum.");
-      console.log(this.num1());
-    })
+  ngOnInit() {
+    this.getTodos();
+  }
+
+  getTodos() {
+    this.loading.set(true);
+    this.#http.get<any[]>('https://jsonplaceholder.typicode.com/todos').subscribe({
+      next: (res) => {
+        this.todos.set(res);
+        this.loading.set(false);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log('Error fetching todos:', err);
+        this.loading.set(false);
+      },
+    });
   }
 }
