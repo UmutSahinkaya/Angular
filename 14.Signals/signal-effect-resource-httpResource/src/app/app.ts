@@ -1,6 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, computed, inject, resource, signal } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { httpResource } from '@angular/common/http';
+import { Component, computed } from '@angular/core';
+
+type Todo = {
+  id: number;
+  title: string;
+};
 
 @Component({
   selector: 'app-root',
@@ -23,24 +27,37 @@ import { lastValueFrom } from 'rxjs';
   `,
 })
 export class App {
-  readonly result = resource({
-    loader: async () => {
-      const res = await lastValueFrom(
-        this.#http.get<any[]>('https://jsonplaceholder.typicode.com/todos/'),
-      );
-      //const res = await fetch('https://jsonplaceholder.typicode.com/todos/').then(res=>res.json());
+  // -------------------------------------------------------------
+  // Mini karşılaştırma (yan yana fikir):
+  // resource:
+  // const result = resource({
+  //   loader: async () => await lastValueFrom(http.get<Todo[]>(url))
+  // });
+  // => HTTP çağrısını SEN yazarsın.
+  //
+  // httpResource:
+  // const result = httpResource<Todo[]>(() => url);
+  // => HTTP çağrısını Angular yazar, sen sadece URL/request verirsin.
+  // -------------------------------------------------------------
 
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      return res;
-    },
-  });
+  // resource farkı:
+  // - resource'da loader fonksiyonunu ve HTTP çağrısını (HttpClient/fetch) sen yazarsın.
+  // - httpResource'da URL/request verirsin; HTTP çağrısını Angular yönetir.
+  // - İkisi de value(), isLoading(), error() API'si sunar.
+  readonly result = httpResource<Todo[]>(
+    // URL bir fonksiyon olduğu için signal/computed ile reaktif hale getirilebilir.
+    // Bağımlı signal değişirse istek otomatik yeniden yapılır.
+    () => 'https://jsonplaceholder.typicode.com/todos/',
+  );
 
+  // result.value() -> başarılı yanıtta gelen veri
   readonly todos = computed(() => this.result.value() ?? []);
+  // result.isLoading() -> istek devam ederken true
   readonly loading = computed(() => this.result.isLoading() ?? false);
+  // result.error() -> istek hatası varsa dolu olur
   readonly error = computed(() => {
     console.log(this.result.error());
 
     return this.result.error() ? 'Something went wrong :(  Try again later.' : undefined;
   });
-  readonly #http = inject(HttpClient);
 }
