@@ -1,70 +1,20 @@
-# Angular Signals Learning Lab
+# Angular Signals / Resource / httpResource Öğrenme Projesi
 
-Bu repo tek bir Angular projesi içinde şu 3 konuyu adım adım anlatmak için kullanılır:
+Bu proje, Angular Signals ekosistemini adım adım öğrenmek için kullanılan bir eğitim repo’sudur. İçerik tek bir uygulama üzerinde ilerler ve her aşama commit geçmişinde korunur.
 
-1. `effect`
-2. `resource`
-3. `httpResource`
+## Amaç
 
-Amaç: Her konu için yeni proje açmadan, aynı proje içinde ilerlemek ve her adımı commit/tag ile versiyonlamak.
+- `signal`, `computed`, `effect`, `linkedSignal`
+- `resource` ve `httpResource`
+- `input()`, `output()`, `viewChild()` gibi yeni Angular API’leri
 
-## Çalışma Akışı (Önerilen)
+Bu yaklaşım sayesinde tek bir proje içinde konu değiştirip commitler üzerinden geçmiş ders anlarına geri dönebilirsin.
 
-Her konu için aynı döngüyü uygula:
+## Teknoloji Yığını
 
-1. `src/app/app.ts` içinde konuyu örnekle.
-2. README'de ilgili bölümde kısa not + ne gösterdiğini güncelle.
-3. Commit at.
-4. İstersen o commit'i tag'le.
-5. Sonraki konuya geçerken `app.ts`'i sadeleştirip yeni konuyu yaz.
-
-### Commit / Tag Stratejisi
-
-Örnek commit mesajları:
-
-- `feat(effect): basic signal + effect example`
-- `feat(resource): async resource with loading/error states`
-- `feat(httpresource): fetch users via httpResource`
-
-Örnek tag'ler:
-
-- `lesson/effect`
-- `lesson/resource`
-- `lesson/httpresource`
-
-Bu sayede geçmişteki her anlatımı tek komutla açabilirsin:
-
-```bash
-git checkout lesson/effect
-```
-
-## Ders İlerleme Durumu
-
-- [x] Effect
-- [ ] Resource
-- [ ] httpResource
-
-> Bu checklist her adımda güncellenecek.
-
-## Konu Notları
-
-### 1) Effect
-
-- Hedef: signal değiştiğinde yan etkinin nasıl çalıştığını göstermek.
-- Dosya: `src/app/app.ts`
-- Durum: Tamamlandı
-
-### 2) Resource
-
-- Hedef: asenkron veri akışını `resource` ile yönetmek (`loading`, `value`, `error`).
-- Dosya: `src/app/app.ts`
-- Durum: Sıradaki adım
-
-### 3) httpResource
-
-- Hedef: HTTP üzerinden veri çekimini `httpResource` ile göstermek.
-- Dosya: `src/app/app.ts`
-- Durum: Planlandı
+- Angular `^21.0.0`
+- TypeScript `~5.9.2`
+- RxJS `~7.8.0`
 
 ## Projeyi Çalıştırma
 
@@ -73,8 +23,61 @@ npm install
 npm start
 ```
 
-Uygulama: `http://localhost:4200`
+Uygulama varsayılan olarak `http://localhost:4200` üzerinde açılır.
 
-## Not
+## Test
 
-Bu repo bir "öğrenme günlüğü" gibi ilerler. Her commit bir mini ders snapshot'ıdır.
+```bash
+npm test
+```
+
+## Proje Yapısı
+
+Önemli dosyalar:
+
+- `src/app/app.ts`: Ana örnek akışları
+- `src/app/test.ts`: `input`, `output`, `linkedSignal` örnekleri
+- `src/app/app.config.ts`: `provideHttpClient` dahil uygulama sağlayıcıları
+
+## Güncel Durum
+
+Bu branch’in güncel halinde `app.ts` içinde Input/Output/ViewChild odaklı örnek bulunmaktadır. `resource` ve `httpResource` örnekleri commit geçmişinde yer alır.
+
+## Commit Geçmişi (Özet)
+
+Aşağıdaki commitler proje öğrenme akışını gösterir (en yeniden eskiye):
+
+1. `de0e03d` — Input, output, viewChild kullanımı
+2. `74061f8` — `httpResource` kullanımı
+3. `f66829d` — resource sonrası güncelleme
+4. `e5b31dc` — `resource` kullanımından sonra
+5. `92b67d3` — `resource` kullanımından önce hazırlık
+6. `c943ece` — `effect` kullanımı
+7. `16931da` — bu öğrenme projesinin temel başlangıcı
+8. `7c158dc` — README eklendi
+9. `6cbbf01` — `linkedSignal` kullanımı
+10. `4f66c13` — `computed` kullanımı
+
+> Not: Commit mesajlarında Türkçe karakter kodlaması geçmişe bağlı olarak terminalde bozuk görünebilir; hash’ler doğrudur.
+
+## Geçmiş Bir Derse Dönme
+
+Belirli bir konu snapshot’ını açmak için:
+
+```bash
+git checkout 74061f8
+```
+
+Tekrar güncel branch’e dönmek için:
+
+```bash
+git switch -
+```
+
+## Önerilen Çalışma Biçimi
+
+1. Konuyu `app.ts` veya `test.ts` içinde uygula.
+2. README’de kısa not düş.
+3. Anlamlı bir commit mesajı ile kaydet.
+
+Bu repo bir “öğrenme günlüğü” olarak tasarlanmıştır; her commit mini ders snapshot’ı gibi kullanılabilir.
