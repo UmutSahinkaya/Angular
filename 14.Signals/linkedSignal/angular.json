@@ -2,23 +2,13 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "cli": {
-    "packageManager": "npm",
-    "analytics": false
+    "packageManager": "npm"
   },
   "newProjectRoot": "projects",
   "projects": {
-    "LazyLoading-withLayout": {
+    "linkedSignal": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component":{
-          "skipTests":true,
-          "skipSelector":true,
-          "viewEncapsulation":"None",
-          "changeDetection":"OnPush",
-          "style":"none",
-          "exportDefault": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -66,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "LazyLoading-withLayout:build:production"
+              "buildTarget": "linkedSignal:build:production"
             },
             "development": {
-              "buildTarget": "LazyLoading-withLayout:build:development"
+              "buildTarget": "linkedSignal:build:development"
             }
           },
           "defaultConfiguration": "development"
