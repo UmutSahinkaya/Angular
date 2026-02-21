@@ -47,6 +47,17 @@ Bu repo, Angular calismalarini konu konu takip etmek icin tutuluyor. Her konu ay
 - Reactive Forms: [12.Forms/reactiveformsapp/README.md](12.Forms/reactiveformsapp/README.md)
 	- `FormGroup`, `FormControl`, validator ve form model yonetimi.
 
+### 13. Lazy Loading
+- Lazy Loading (Basic): [13.LazyLoading/lazyLoadingApp/README.md](13.LazyLoading/lazyLoadingApp/README.md)
+- Lazy Loading with Layout: [13.LazyLoading/LazyLoading-withLayout/README.md](13.LazyLoading/LazyLoading-withLayout/README.md)
+
+### 14. Signals
+- Signal Learning App: [14.Signals/signal-learning-app/README.md](14.Signals/signal-learning-app/README.md)
+- Signal Effect + Resource + HttpResource: [14.Signals/signal-effect-resource-httpResource/README.md](14.Signals/signal-effect-resource-httpResource/README.md)
+- Signal Forms: [14.Signals/SignalForms/README.md](14.Signals/SignalForms/README.md)
+- Computed Signals: [14.Signals/computed-signals/README.md](14.Signals/computed-signals/README.md)
+- Linked Signal: [14.Signals/linkedSignal/README.md](14.Signals/linkedSignal/README.md)
+
 ### Basic Exercises
 - Kredi Hesaplama: [MyExersizes/kredi-hesaplama/README.md](MyExersizes/kredi-hesaplama/README.md)
 - Kredi Hesaplama (Alternatif): [MyExersizes/myKrediHesaplama/README.md](MyExersizes/myKrediHesaplama/README.md)

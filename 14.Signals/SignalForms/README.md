@@ -1,59 +1,63 @@
 # SignalForms
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Angular 21 ile `@angular/forms/signals` kullanarak hazırlanmış basit bir giriş formu örneği.
 
-## Development server
+## İçerik
 
-To start a local development server, run:
+Bu projede:
 
-```bash
-ng serve
-```
+- `signal` tabanlı form state yönetimi
+- `form()` ile Signal Form oluşturma
+- `required` ve `email` validasyonları
+- `FormField` direktifi ile input bağlama
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+uygulanır.
 
-## Code scaffolding
+## Teknolojiler
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Angular `21`
+- TypeScript
+- Angular Signals
+- Angular Signal Forms API (`@angular/forms/signals`)
 
-```bash
-ng generate component component-name
-```
+## Başlangıç
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### Gereksinimler
 
-```bash
-ng generate --help
-```
+- Node.js (LTS sürümü önerilir)
+- npm
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Kurulum
 
 ```bash
-ng test
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Geliştirme Sunucusu
 
 ```bash
-ng e2e
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Uygulama varsayılan olarak `http://localhost:4200` adresinde çalışır.
 
-## Additional Resources
+## NPM Komutları
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `npm start` → geliştirme sunucusunu başlatır (`ng serve`)
+- `npm run build` → prod build alır (`ng build`)
+- `npm run watch` → development konfigürasyonu ile watch build çalıştırır
+- `npm test` → testleri çalıştırır (`ng test`)
+
+## Proje Yapısı
+
+```text
+src/
+	app/
+		app.ts          # Signal form örneği ve validasyonlar
+		app.config.ts   # Uygulama konfigürasyonu
+	main.ts           # Bootstrap girişi
+```
+
+## Not
+
+Bu repo eğitim/deney amaçlı minimal bir örnektir. Form gönderiminde mevcut değerler `console.log` ile yazdırılır.
