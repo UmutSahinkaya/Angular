@@ -5,7 +5,22 @@ import { lastValueFrom } from 'rxjs';
 @Component({
   selector: 'app-root',
   imports: [],
-  template: ``,
+  template: `
+  <h4>App Component</h4>
+  @if(error()){
+    <p>{{error()}}</p>
+  }
+  @if(loading()){
+    <p>Loading...</p>
+  }
+  @else {
+    <ul>
+      @for(data of todos();track data.id){
+        <li>{{data.title}}</li>
+      }
+    </ul>
+  }
+  `,
 })
 export class App {
   readonly result = resource({
