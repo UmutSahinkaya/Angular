@@ -1,63 +1,26 @@
-import { httpResource } from '@angular/common/http';
-import { Component, computed } from '@angular/core';
-
-type Todo = {
-  id: number;
-  title: string;
-};
+import { Component, ElementRef, signal, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Test } from './test';
 
 @Component({
   selector: 'app-root',
-  imports: [],
+  imports: [FormsModule, Test],
   template: `
-  <h4>App Component</h4>
-  @if(error()){
-    <p>{{error()}}</p>
-  }
-  @if(loading()){
-    <p>Loading...</p>
-  }
-  @else {
-    <ul>
-      @for(data of todos();track data.id){
-        <li>{{data.title}}</li>
-      }
-    </ul>
-  }
+    <h4 #headEl>App Component</h4>
+    <input [(ngModel)]="name" />
+    <app-test [name]="name()" (newEvent)="save()"></app-test>
   `,
 })
 export class App {
-  // -------------------------------------------------------------
-  // Mini karşılaştırma (yan yana fikir):
-  // resource:
-  // const result = resource({
-  //   loader: async () => await lastValueFrom(http.get<Todo[]>(url))
-  // });
-  // => HTTP çağrısını SEN yazarsın.
-  //
-  // httpResource:
-  // const result = httpResource<Todo[]>(() => url);
-  // => HTTP çağrısını Angular yazar, sen sadece URL/request verirsin.
-  // -------------------------------------------------------------
+  readonly name = signal<string>('Umut Şahinkaya');
 
-  // resource farkı:
-  // - resource'da loader fonksiyonunu ve HTTP çağrısını (HttpClient/fetch) sen yazarsın.
-  // - httpResource'da URL/request verirsin; HTTP çağrısını Angular yönetir.
-  // - İkisi de value(), isLoading(), error() API'si sunar.
-  readonly result = httpResource<Todo[]>(
-    // URL bir fonksiyon olduğu için signal/computed ile reaktif hale getirilebilir.
-    // Bağımlı signal değişirse istek otomatik yeniden yapılır.
-    () => 'https://jsonplaceholder.typicode.com/todos/',
-  );
+  // @ViewChild('headEl') headElement!: HTMLElement;
+  readonly headElVar = viewChild.required<ElementRef<HTMLHeadElement>>('headEl'); // viewChild.required ile headElement'in kesinlikle bulunması gerektiğini belirtiyoruz. Eğer bulunmazsa Angular bir hata fırlatır.
 
-  // result.value() -> başarılı yanıtta gelen veri
-  readonly todos = computed(() => this.result.value() ?? []);
-  // result.isLoading() -> istek devam ederken true
-  readonly loading = computed(() => this.result.isLoading() ?? false);
-  // result.error() -> istek hatası varsa dolu olur
-  readonly error = computed(() => {
-    console.log(this.result.error());
 
-    return this.result.error() ? 'Something went wrong :(  Try again later.' : undefined;
-  });
+
+  save() {
+    console.log('Event is working');
+    this.headElVar().nativeElement.innerText = 'Changed by Event'; // viewChild ile eriştiğimiz headElement'in innerText'ini değiştiriyoruz.
+  }
 }
