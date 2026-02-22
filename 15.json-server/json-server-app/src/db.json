@@ -1,0 +1,95 @@
+{
+  "$schema": "./node_modules/json-server/schema.json",
+  "posts": [
+    {
+      "id": "1",
+      "title": "a title",
+      "views": 100
+    },
+    {
+      "id": "2",
+      "title": "another title",
+      "views": 200
+    },
+    {
+      "id": "3",
+      "title": "yet another title",
+      "views": 300
+    },
+    {
+      "id": "352f43ae70dc7",
+      "title": "e8b3c436649f58",
+      "views": "65b10fdfcfe808"
+    },
+    {
+      "id": "bef08b87e558b",
+      "title": "449add076b01d8",
+      "views": "77bdcbb8f9f318"
+    },
+    {
+      "id": "bf199c0b98d55",
+      "title": "30f6c7251e94f",
+      "views": "7a5fc7fcd5a63"
+    },
+    {
+      "id": "da52daf768056",
+      "title": "ea0d6bda84b818",
+      "views": "cf1ae04d7e70c"
+    },
+    {
+      "id": "ebdedf65d88a9",
+      "title": "a32f373fb78f9",
+      "views": "ef29dda4b2cab"
+    },
+    {
+      "id": "8aab28ad33cdf8",
+      "title": "ef4cd5ea2b7288",
+      "views": "4f51a96fa4c79"
+    },
+    {
+      "id": "c0835c3ce8ffb",
+      "title": "f97e64558a942",
+      "views": "972c758be3a6e8"
+    },
+    {
+      "id": "4ff143dac12ad8",
+      "title": "2d486973dc899",
+      "views": "c74ad4de50812"
+    },
+    {
+      "id": "5905c9e20fc728",
+      "title": "16cae2f7e16448",
+      "views": "f3eb908b5b7b18"
+    },
+    {
+      "id": "e372407f45f79",
+      "title": "ef203fdfd319b",
+      "views": "c27bebe4690988"
+    },
+    {
+      "id": "e1239867019b58",
+      "title": "d057805701eb68",
+      "views": "86fc085a1195c"
+    },
+    {
+      "id": "fa7dd8623c7ba8",
+      "title": "1250c47d8fb08",
+      "views": "ce869ab93f6ef"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "text": "a comment about post 1",
+      "postId": "1"
+    },
+    {
+      "id": "2",
+      "text": "another comment about post 1",
+      "postId": "1"
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}
