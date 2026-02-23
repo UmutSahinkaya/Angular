@@ -1,59 +1,153 @@
-# JsonServerApp
+# json-server + Angular Demo
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, gelistirme ortaminda hizli bir **sahte REST API** olarak `json-server`'i kullanmayi ogretmek icin hazirlanmistir. Angular uygulamasi `HttpClient` ile bu API'ye `GET` ve `POST` istekleri atar; veriler signal tabanli state ile yonetilir.
 
-## Development server
+---
 
-To start a local development server, run:
+## json-server Nedir?
 
-```bash
-ng serve
-```
+`json-server`, sadece bir JSON dosyasi (`db.json`) ile cahsen dakikalar icinde eksiksiz bir REST API ayaga kaldirabileceginiz bir npm paketidir. Gercek bir backend olmadan Angular HTTP calismalarini test etmek icin idealdir.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**Desteklenen endpoint'ler (`/posts` icin ornek):**
 
-## Code scaffolding
+| Metot | URL | Aciklama |
+|---|---|---|
+| GET | `/posts` | Tum kayitlar |
+| GET | `/posts/:id` | Tek kayit |
+| POST | `/posts` | Yeni kayit ekle |
+| PUT | `/posts/:id` | Kaydı tamamen guncelle |
+| PATCH | `/posts/:id` | Kismi guncelleme |
+| DELETE | `/posts/:id` | Kayit sil |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## Kurulum
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+### 1) json-server'i Global Yukle
 
 ```bash
-ng build
+npm install -g json-server
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 2) db.json Olustur
 
-## Running unit tests
+Proje kokunde veya farkli bir klasorde bir `db.json` olustur:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+```json
+{
+  "posts": [
+    { "id": "1", "title": "Angular Basics", "views": "100" },
+    { "id": "2", "title": "TypeScript Tips", "views": "200" }
+  ]
+}
+```
+
+### 3) json-server'i Baslat
 
 ```bash
-ng test
+json-server --watch db.json --port 3000
 ```
 
-## Running end-to-end tests
+API adresi: `http://localhost:3000/posts`
 
-For end-to-end (e2e) testing, run:
+> `--watch` sayesinde `db.json` degisince server kendini yeniler.
+
+### 4) Angular Uygulamasini Baslat (Ayri terminalde)
 
 ```bash
-ng e2e
+npm install
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Tarayici: `http://localhost:4200/`
 
-## Additional Resources
+> Once `json-server`'i, sonra Angular'i baslatmayi unutma.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## Uygulama Yapisi
+
+```
+src/app/
+  app.ts      // GET ve POST istekleri, signal ile state yonetimi
+```
+
+---
+
+## Temel Kod
+
+### `app.ts`
+
+```ts
+@Component({
+  template: `
+    <button (click)="get()">Get</button>
+    <button (click)="post()">Post</button>
+    <ul>
+      @for (val of posts(); track val.id) {
+        <li>{{ val.id }} - {{ val.views }} - {{ val.title }}</li>
+      }
+    </ul>
+  `,
+})
+export class App {
+  readonly posts = signal<any[]>([]);
+  readonly #http = inject(HttpClient);
+
+  post() {
+    const data = {
+      id: Math.random().toString(16).slice(2),
+      title: Math.random().toString(16).slice(2),
+      views: Math.random().toString(16).slice(2),
+    };
+    this.#http.post('http://localhost:3000/posts', data)
+      .subscribe(() => this.get());   // POST sonrasi listeyi yenile
+  }
+
+  get() {
+    this.#http.get<any[]>('http://localhost:3000/posts').subscribe({
+      next: (res) => this.posts.set(res),
+      error: (err: HttpErrorResponse) => console.error(err),
+    });
+  }
+}
+```
+
+**Dikkat edilecek noktalar:**
+- `signal<any[]>([])` ile baslangic state'i bos dizi.
+- `POST` bittikten sonra `subscribe` callback'inde `get()` cagrisi yapiliyor — bu listenin guncellenmesini saglar.
+- `HttpErrorResponse` import'u ile HTTP hatalari tip-guvenli yakalanir.
+
+### `app.config.ts`
+
+```ts
+providers: [
+  provideHttpClient(withFetch()),
+  provideRouter(routes)
+]
+```
+
+> `provideHttpClient(withFetch())` HTTP isteklerinin modern Fetch API ile yapilmasini saglar.
+
+---
+
+## json-server Notlari
+
+- `db.json` dosyasi json-server'in "veritabani"dir; her `POST/PUT/DELETE` bu dosyayi gunceller.
+- json-server'in `4.x` surumunden itibaren `--watch` yerine `json-server db.json` yeterli olabilir.
+- CORS varsayilan olarak aciktir; Angular dev server'dan istek atmak icin ekstra ayar gerekmez.
+- Sahte gecikme eklemek icin: `json-server --watch db.json --delay 500`
+
+---
+
+## Ogrenim Notlari
+
+- Bu proje, `HttpClient`'i signal ile birlestirmenin en minimal ornegini gosteriyor.
+- Gercek projede `HttpClient` cagrisi bir servis icerisinde yapilir; component dogrudan inject etmez.
+- `httpResource` (Angular 21+) bu patternin daha modern ve reaktif halidir — bakiniz `14.Signals` ve `17.FlexUI` projeleri.
+
+---
+
+## Bagli Dokumanlar
+
+- Ana repo: [../../README.md](../../README.md)

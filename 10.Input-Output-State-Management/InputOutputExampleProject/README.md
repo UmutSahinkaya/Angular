@@ -1,59 +1,137 @@
-# InputOutputExampleProject
+# Input / Output — Calisan Kayit Uygulamasi
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular 21 ile **parent-child component iletisimini** (`@Input` ve `@Output`) ogretmek icin tasarlanmis somut bir calismadir. Senaryo: Bir form bileseni calisani kaydeder ve parent component bu veriyi alip listeye ekler.
 
-## Development server
+---
 
-To start a local development server, run:
+## Senaryo
 
-```bash
-ng serve
+- `EmployeeCreate` bileseni: Form ic tutaral, kaydet butonuna basilinca calisani `EventEmitter` ile yukari gonderir.
+- `Employees` bileseni: Parent'tan `@Input()` ile gelen calisan dizisini listeler.
+- `App` (parent): Iki alt bileseni birlestirir, `EmployeeCreate`'ten gelen события kaydeder ve `Employees`'a iletir.
+
+---
+
+## Proje Yapisi
+
+```
+src/app/
+  employee-create/
+    employee-create.ts   // @Output ile calisan gonderir
+    employee-create.html // Form template
+    employee-create.css
+  employees/
+    employees.ts         // @Input ile calisan listesi alir
+    employees.html       // Liste template
+    employees.css
+  app.ts                 // Parent: iki bileseni baglayan koordinator
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Temel Kavramlar ve Kod
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 1) Calisan Modeli
 
-```bash
-ng generate component component-name
+```ts
+export class Employee {
+  name: string = '';
+  surname: string = '';
+  dateOfBirth: string = '';
+}
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 2) `@Output` — Alt Bilesen Veri Gonderir
 
-```bash
-ng generate --help
+`EmployeeCreate` bileseni formu yonetir. Kaydet butonuna basilinca `EventEmitter` ile parent'a bir `Employee` nesnesi gonderir:
+
+```ts
+@Component({ selector: 'app-employee-create', ... })
+export class EmployeeCreate {
+  employee = new Employee();
+
+  @Output() myEvent = new EventEmitter<Employee>();
+
+  save() {
+    this.myEvent.emit(this.employee);  // Parent'a gonder
+    this.employee = new Employee();   // Formu sifirla
+  }
+}
 ```
 
-## Building
+### 3) `@Input` — Alt Bilesen Veri Alir
 
-To build the project run:
+`Employees` bileseni parent'tan calisan listesini alir:
 
-```bash
-ng build
+```ts
+@Component({ selector: 'app-employees', ... })
+export class Employees {
+  @Input() employes: Employee[] = [];
+}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### 4) Parent — Iki Bileseni Baglar
 
-## Running unit tests
+`App` bileseni hem event dinler hem de listeyi iletir:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+```ts
+@Component({
+  imports: [Employees, EmployeeCreate],
+  template: `
+    <app-employee-create (myEvent)="save($event)" />
+    <hr />
+    <app-employees [employes]="employees" />
+  `,
+})
+export class App {
+  employee = new Employee();
+  employees: Employee[] = [];
 
-```bash
-ng test
+  save(event: any) {
+    this.employee = event;
+    this.employees.push({...event});   // Spread: referansi kirmak icin
+  }
+}
 ```
 
-## Running end-to-end tests
+> `{...event}` spread kullanimi kritik: `push(event)` yapilsaydi, `employee-create`'in ayni nesneyi `reset` etmesi listedeki kaydi da bozardi.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
+## Veri Akis Diyagrami
+
+```
+App (parent)
+  |-- [employes]="employees" --> Employees (child)     // Asagi veri: @Input
+  |-- (myEvent)="save($event)" <-- EmployeeCreate (child) // Yukari veri: @Output
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## Calistirma
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+cd 10.Input-Output-State-Management/InputOutputExampleProject
+npm install
+npm start
+```
+
+Tarayici: `http://localhost:4200/`
+
+---
+
+## Ogrenim Notlari
+
+- `@Input()` ile parent'tan child'a veri aktarilir (tek yon: asagi).
+- `@Output()` ile child'dan parent'a olay (event) firlatilir (yukari).
+- `EventEmitter<T>` jenerik yapi kullanir; tip belirtmek type-safe kullanim saglar.
+- `{...event}` spread kullanimi ile nesne referansi yeni bir kopya olusturulur; bu sayede form sifirlaninca liste bozulmaz.
+- Bu pattern servis kullanimi gerekmeden kucuk component agaclari icin yeterlidir; buyuk uygulamalarda Signal veya Service tabanli state yonetimine gecilir.
+
+---
+
+## Bagli Dokumanlar
+
+- Input/Output + State: [../InputOutputStateManagement/README.md](../InputOutputStateManagement/README.md)
+- Service ile State: [../StateManagementWithServices/README.md](../StateManagementWithServices/README.md)
+- Ana repo: [../../README.md](../../README.md)

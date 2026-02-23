@@ -1,59 +1,143 @@
-# LazyLoadingWithLayout
+# Lazy Loading with Layout
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Bu proje, Angular 21 ile hem **layout tabanli nested routing** hem de **module bazli lazy loading** (`loadChildren`) yaklasimini bir arada gostermek icin hazirlanmistir. Temel `lazyLoadingApp` projesinin uzerine layout + ic-ice rota yapisi eklenmistir.
 
-## Development server
+---
 
-To start a local development server, run:
+## Neden Bu Proje?
 
-```bash
-ng serve
+Basit `loadComponent` ile yapilan lazy loading, tek bir bileseni tembel yukler. Bu proje bir adim ileri giderek:
+
+- Uygulama kabugunun (Navbar + Sidebar + `<router-outlet>`) bir **Layout** bileseniyle yonetildigini,
+- Bir modul (veya rota grubu) icindeki birden fazla sayfanin `loadChildren` ile ayni anda lazy olarak yuklenebildigini
+
+gostermektedir.
+
+---
+
+## Proje Yapisi
+
+```
+src/
+  app/
+    app.ts             // Sadece <router-outlet> — tum icerik rota ile geliyor
+    app.routes.ts      // Ana rota tanimi: layout lazy, products lazy nested
+  pages/
+    layout/
+      layout.ts        // Navbar + Sidebar + RouterOutlet — shell component
+      navbar/
+      sidebar/
+    home/
+      home.ts          // Karin bos anasayfa
+    products/
+      products.ts      // Urun listesi
+      create-product/
+        create-product.ts
+      router.ts        // Products modul ici rotalar
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Rota Yapisi ve Lazy Loading Akisi
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Ana rotalar (`app.routes.ts`)
 
-```bash
-ng generate component component-name
+```ts
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('../pages/layout/layout'),  // Layout lazy
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('../pages/home/home'),  // Home lazy
+      },
+      {
+        path: 'products',
+        loadChildren: () => import('../pages/products/router').then(m => m.routes), // Products grubu lazy
+      },
+    ],
+  },
+];
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+**Adim adim ne olur:**
+1. Kullanici uygulamayi acinca `''` ile eslesen Layout bileseni lazy yukletr.
+2. Layout yuklendikten sonra child route olarak `home` gelir, o da ayri chunk'ta tembel yuklenir.
+3. Kullanici `/products`'a gittiginde `products/router.ts` dosyasi yuklenir; bu dosya `products` ve `create-product` icin ayri bir rota grubunu tanimlar.
 
-```bash
-ng generate --help
+### Products modul rotasi (`pages/products/router.ts`)
+
+```ts
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('./products'),           // /products listesi
+  },
+  {
+    path: 'create',
+    loadComponent: () => import('./create-product/create-product'), // /products/create
+  },
+];
 ```
 
-## Building
+> `loadChildren` bir array ya da dosya dondurur; burada dosyadan export edilen `routes` dizisi dondurulur. Bu sayede `/products` altindaki tum alt sayfalar ayni lazy chunk'a girer.
 
-To build the project run:
+---
 
-```bash
-ng build
+## Layout Bileseni
+
+`layout.ts` bileseni uygulamanin kabugi gorevini ustlenir:
+
+```ts
+@Component({
+  imports: [RouterOutlet, Navbar, Sidebar],
+  templateUrl: './layout.html',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export default class Layout {}
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- `RouterOutlet`: Aktif child route'un bilesenini buraya render eder.
+- `Navbar` ve `Sidebar`: Her sayfada sabit kalan kabuk elemanlari.
+- `default export`: `loadComponent` ile `default` export kullanimini zorunlu kilar.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+## `loadComponent` vs `loadChildren` Farki
+
+| | `loadComponent` | `loadChildren` |
+|---|---|---|
+| Ne yukler? | Tek bir bileseni | Bir rota dizisini (modul gibi) |
+| Ne zaman kullanilir? | Tek sayfa | Birden fazla alt sayfa icin |
+| Donurtur | `Promise<Component>` | `Promise<Routes>` |
+| Ornek | `() => import('./home/home')` | `() => import('./products/router').then(m => m.routes)` |
+
+---
+
+## Calistirma
 
 ```bash
-ng test
+cd 13.LazyLoading/LazyLoading-withLayout
+npm install
+npm start
 ```
 
-## Running end-to-end tests
+Tarayici: `http://localhost:4200/`
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## Ogrenim Notlari
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- Her `loadComponent` / `loadChildren` cagrisi ayri bir webpack chunk'i olusturur. Bunu `ng build` sonrasinda `dist/` klasorunde gorebilirsiniz.
+- Layout lazy olarak yuklendikten sonra child route'lar da lazy kalir; yani `home` acilmadan `products` yuklenmez.
+- `ViewEncapsulation.None` burada layout component'in global CSS'i (Navbar, Sidebar stilleri) etkileyebilmesi icin kullanilmistir.
+- `ChangeDetectionStrategy.OnPush` ile layout gereksiz render etmez.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Bagli Dokumanlar
+
+- Temel Lazy Loading: [../lazyLoadingApp/README.md](../lazyLoadingApp/README.md)
+- Ana repo: [../../README.md](../../README.md)
