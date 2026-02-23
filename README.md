@@ -58,6 +58,12 @@ Bu repo, Angular calismalarini konu konu takip etmek icin tutuluyor. Her konu ay
 - Computed Signals: [14.Signals/computed-signals/README.md](14.Signals/computed-signals/README.md)
 - Linked Signal: [14.Signals/linkedSignal/README.md](14.Signals/linkedSignal/README.md)
 
+### 15. json-server
+- json-server App: [15.json-server/json-server-app/README.md](15.json-server/json-server-app/README.md)
+
+### 16. Internationalization / Localization / i18n
+- i18n App: [16.Internationalization - Localization - i18n/i18n/README.md](16.Internationalization - Localization - i18n/i18n/README.md)
+
 ### Basic Exercises
 - Kredi Hesaplama: [MyExersizes/kredi-hesaplama/README.md](MyExersizes/kredi-hesaplama/README.md)
 - Kredi Hesaplama (Alternatif): [MyExersizes/myKrediHesaplama/README.md](MyExersizes/myKrediHesaplama/README.md)
