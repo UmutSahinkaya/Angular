@@ -1,12 +1,52 @@
-<div>
-  <flexi-grid 
-  [data]="todos() || []"
-  [loading]="loading()"
-  language="tr"
-  themeClass="dark">
-    <flexi-grid-column field="id" title="Id"></flexi-grid-column>
-    <flexi-grid-column field="title" title="Todo Title"></flexi-grid-column>
-    <flexi-grid-column field="isCompleted" title="Is Completed"></flexi-grid-column>
-    <flexi-grid-column field="userId" title="UserId"></flexi-grid-column>
-  </flexi-grid>
+<div class="page">
+  <h1>Flexi Grid Paket İçeriği</h1>
+
+  @if (errorMessage()) {
+    <section class="panel error-panel">
+      <strong>Veri çekme hatası:</strong> {{ errorMessage() }}
+    </section>
+  }
+
+  <section class="panel">
+    <h2>Öne Çıkan Özellikler</h2>
+    <ul>
+      @for (feature of featureList; track feature) {
+        <li>{{ feature }}</li>
+      }
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>Export Edilen Yapılar</h2>
+    <ul>
+      @for (item of packageExports; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </section>
+
+  <section class="panel">
+    <h2>Canlı Grid Demo</h2>
+    <flexi-grid
+      [data]="todos()"
+      [loading]="loading()"
+      [showIndex]="true"
+      [sortable]="true"
+      [filterable]="true"
+      [pageable]="true"
+      [resizable]="true"
+      [showColumnVisibility]="true"
+      [themeClass]="'light'"
+      [language]="'tr'"
+      [sort]="initialSort"
+      [filter]="initialFilters"
+      [height]="'520px'"
+      [captionTitle]="'Todo Listesi'"
+    >
+      <flexi-grid-column field="id" title="Id" width="90px" filterType="number" textAlign="right"></flexi-grid-column>
+      <flexi-grid-column field="title" title="Todo Title" width="380px"></flexi-grid-column>
+      <flexi-grid-column field="completed" title="Completed" width="150px" filterType="boolean"></flexi-grid-column>
+      <flexi-grid-column field="userId" title="UserId" width="120px" filterType="number" textAlign="right"></flexi-grid-column>
+    </flexi-grid>
+  </section>
 </div>
